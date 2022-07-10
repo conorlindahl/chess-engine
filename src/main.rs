@@ -2,11 +2,13 @@ mod rank;
 mod file;
 mod square;
 mod board;
+mod piece;
 
 use crate::rank::Rank;
 use crate::file::File;
 use crate::square::Square;
 use crate::board::Board;
+use crate::piece::Piece;
 
 fn main() {
     let sq = Square{
