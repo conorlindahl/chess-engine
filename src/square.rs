@@ -16,7 +16,7 @@ impl Square {
         self.file
     }
 
-    fn left(&self) -> Option<Square> {
+    pub fn left(&self) -> Option<Square> {
         match self.file.previous() {
             None => None,
             Some(f) => Some(
@@ -28,7 +28,7 @@ impl Square {
         }
     }
 
-    fn right(&self) -> Option<Square> {
+    pub fn right(&self) -> Option<Square> {
         match self.file.next() {
             None => None,
             Some(f) => Some(
@@ -40,7 +40,7 @@ impl Square {
         }
     }
 
-    fn up(&self) -> Option<Square> {
+    pub fn up(&self) -> Option<Square> {
         match self.rank.next() {
             None => None,
             Some(r) => Some(
@@ -52,7 +52,7 @@ impl Square {
         }
     }
 
-    fn down(&self) -> Option<Square> {
+    pub fn down(&self) -> Option<Square> {
         match self.rank.previous() {
             None => None,
             Some(r) => Some(
