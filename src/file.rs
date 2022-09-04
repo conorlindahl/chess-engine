@@ -1,39 +1,35 @@
 #[derive(Debug, Clone, Copy)]
-pub enum File {
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
+pub struct File {
+    val: u8,
 }
 
+const MAX_NUMBER_OF_FILES: u8 = 8;
+
 impl File {
+    pub fn build(file: u8) -> Result<File, &'static str> {
+        if file >= MAX_NUMBER_OF_FILES {
+            return Err("File outside allowable bounds");
+        }
+        Ok(File{val: file})
+    }
+
+    pub fn value(&self) -> u8 {
+        self.val
+    }
+
     pub fn next(&self) -> Option<File> {
-        match self {
-            File::A => Some(File::B),
-            File::B => Some(File::C),
-            File::C => Some(File::D),
-            File::D => Some(File::E),
-            File::E => Some(File::F),
-            File::F => Some(File::G),
-            File::G => Some(File::H),
-            File::H => None,
+        if self.val + 1 >= MAX_NUMBER_OF_FILES {
+            None
+        } else {
+            Some(File{val: self.val + 1})
         }
     }
 
     pub fn previous(&self) -> Option<File> {
-        match self {
-            File::A => None,
-            File::B => Some(File::A),
-            File::C => Some(File::B),
-            File::D => Some(File::C),
-            File::E => Some(File::D),
-            File::F => Some(File::E),
-            File::G => Some(File::F),
-            File::H => Some(File::G),
+        if self.val == 0 {
+            None
+        } else {
+            Some(File{val: self.val - 1})
         }
     }
 }

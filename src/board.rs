@@ -7,9 +7,9 @@ pub struct Board {
 }
 
 impl Board {
-    pub fn get_square(&self, file: usize, row: usize) -> Square {
-        self.squares[file][row]
-
-
+    pub fn get_square(&self, file: File, rank: Rank) -> Square {
+        let file = usize::from(file.value());
+        let rank = usize::from(rank.value());
+        self.squares[file][rank]
     }
 }
