@@ -1,13 +1,24 @@
 use crate::rank::Rank;
 use crate::file::File;
 
-#[derive(Debug, Clone, Copy)]
+use crate::piece::Piece;
+
+#[derive(Debug)]
 pub struct Square {
     pub rank: Rank,
     pub file: File,
+
+    pub piece: Option<Box<dyn Piece>>,
 }
 
 impl Square {
+    pub fn build(rank: u8, file: u8) -> Result<Square, &'static str> {
+        let rank = Rank::build(rank)?;
+        let file = File::build(file)?;
+        let piece: Option<Box<dyn Piece>> = None;
+        Ok(Square{rank, file, piece})
+    }
+
     pub fn rank(&self) -> Rank {
         self.rank
     }

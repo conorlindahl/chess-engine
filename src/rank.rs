@@ -3,7 +3,7 @@ pub struct Rank {
     val: u8,
 }
 
-const MAX_NUMBER_OF_RANKS: u8 = 8;
+pub const MAX_NUMBER_OF_RANKS: u8 = 8;
 
 impl Rank {
     pub fn build(rank: u8) -> Result<Rank, &'static str> {

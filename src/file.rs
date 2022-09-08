@@ -3,7 +3,7 @@ pub struct File {
     val: u8,
 }
 
-const MAX_NUMBER_OF_FILES: u8 = 8;
+pub const MAX_NUMBER_OF_FILES: u8 = 8;
 
 impl File {
     pub fn build(file: u8) -> Result<File, &'static str> {
