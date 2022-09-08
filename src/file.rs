@@ -1,3 +1,5 @@
+use std::ops::Range;
+
 #[derive(Debug, Clone, Copy)]
 pub struct File {
     val: u8,
@@ -11,6 +13,14 @@ impl File {
             return Err("File outside allowable bounds");
         }
         Ok(File{val: file})
+    }
+
+    fn new(file: u8) -> File {
+        File{val: file}
+    }
+
+    pub fn iter_files(range: Range<u8>) -> impl Iterator<Item = File> {
+        range.filter(|file| file < &MAX_NUMBER_OF_FILES).map(|file| File::new(file))
     }
 
     pub fn value(&self) -> u8 {
