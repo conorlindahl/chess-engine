@@ -1,5 +1,3 @@
-use std::ops::Range;
-
 #[derive(Debug, Clone, Copy)]
 pub struct Rank {
     val: u8,
@@ -19,7 +17,7 @@ impl Rank {
         Rank{val: rank}
     }
 
-    pub fn iter_ranks(range: Range<u8>) -> impl Iterator<Item = Rank> {
+    pub fn iter_ranks(range: impl Iterator<Item = u8>) -> impl Iterator<Item = Rank> {
         range.filter(|rank| rank < &MAX_NUMBER_OF_RANKS).map(|rank| Rank::new(rank))
     }
 

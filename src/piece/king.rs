@@ -15,29 +15,16 @@ pub struct King {
  */
 impl Piece for King {
     fn get_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
-        let mut moves = Vec::new();
-
         let rank_val = square.rank().value();
         let file_val = square.file().value();
 
-        for rank in (rank_val-1)..=(rank_val+1) {
-            for file in (file_val-1)..=(file_val+1) {
-                if rank == rank_val && file == file_val {
-                    continue;
-                }
-                let rank = match Rank::build(rank) {
-                    Ok(r) => r,
-                    _ => {continue;}
-                };
-                let file = match File::build(file) {
-                    Ok(f) => f,
-                    _ => {continue;}
-                };
-                moves.push(board.get_square(file, rank));
-            }
-        }
-
-        moves
+        Rank::iter_ranks((rank_val-1)..=(rank_val+1)).flat_map(|rank| {
+            File::iter_files((file_val-1)..=(file_val+1)).filter(move |file| {
+                !(rank.value() == rank_val && file.value() == file_val)
+            }).map(move |file| {
+                board.get_square(file, rank)
+            })
+        }).collect()
     }
 
     fn get_color(&self) -> Color {
