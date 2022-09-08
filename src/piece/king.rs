@@ -31,3 +31,87 @@ impl Piece for King {
         return self.color;
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn central_square_empty_board() {
+        let board = Board::build().unwrap();
+        let square = Square::build(4,4).unwrap();
+        
+        let king = King{color: Color::White};
+
+        let valid_moves = vec!(
+            Square::build(3, 3).unwrap(),
+            Square::build(3, 4).unwrap(),
+            Square::build(3, 5).unwrap(),
+            Square::build(4, 3).unwrap(),
+            Square::build(4, 5).unwrap(),
+            Square::build(5, 3).unwrap(),
+            Square::build(5, 4).unwrap(),
+            Square::build(5, 5).unwrap()
+        );
+
+        let king_moves = king.get_moves(&board, &square);
+
+        assert!(valid_moves.len() == king_moves.len());
+        
+        assert!(
+            valid_moves.iter().all(|m| {
+                king_moves.contains(&m)
+            })
+        );
+    }
+
+    #[test]
+    fn edge_square_empty_board() {
+        let board = Board::build().unwrap();
+        let square = Square::build(0,4).unwrap();
+        
+        let king = King{color: Color::White};
+
+        let valid_moves = vec!(
+            Square::build(0, 3).unwrap(),
+            Square::build(0, 5).unwrap(),
+            Square::build(1, 3).unwrap(),
+            Square::build(1, 4).unwrap(),
+            Square::build(1, 5).unwrap(),
+        );
+
+        let king_moves = king.get_moves(&board, &square);
+
+        assert!(valid_moves.len() == king_moves.len());
+        
+        assert!(
+            valid_moves.iter().all(|m| {
+                king_moves.contains(&m)
+            })
+        );
+    }
+
+    #[test]
+    fn corner_square_empty_board() {
+        let board = Board::build().unwrap();
+        let square = Square::build(0,0).unwrap();
+        
+        let king = King{color: Color::White};
+
+        let valid_moves = vec!(
+            Square::build(0, 1).unwrap(),
+            Square::build(1, 0).unwrap(),
+            Square::build(1, 1).unwrap(),
+        );
+
+        let king_moves = king.get_moves(&board, &square);
+
+        assert!(valid_moves.len() == king_moves.len());
+        
+        assert!(
+            valid_moves.iter().all(|m| {
+                king_moves.contains(&m)
+            })
+        );
+    }
+}

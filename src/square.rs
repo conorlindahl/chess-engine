@@ -27,3 +27,10 @@ impl Square {
         self.file
     }
 }
+
+impl PartialEq for Square {
+    fn eq(&self, other: &Square) -> bool {
+        self.rank.value() == other.rank.value() &&
+            self.file.value() == other.file.value()
+    }
+}
