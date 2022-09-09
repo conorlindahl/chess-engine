@@ -88,9 +88,6 @@ mod tests {
 
         assert!(valid_moves.len() == knight_moves.len());
 
-        println!("{:?}", valid_moves);
-        println!("{:?}", knight_moves);
-        
         assert!(
             valid_moves.iter().all(|m| {
                 knight_moves.contains(&m)
