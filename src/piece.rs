@@ -5,6 +5,7 @@ pub mod king;
 pub mod knight;
 pub mod rook;
 pub mod bishop;
+pub mod queen;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Color {
