@@ -2,6 +2,7 @@ use crate::board::Board;
 use crate::square::Square;
 
 pub mod king;
+pub mod knight;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Color {
