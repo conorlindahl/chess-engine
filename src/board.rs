@@ -4,6 +4,9 @@ use crate::rank::Rank;
 use crate::file;
 use crate::file::File;
 
+use std::cmp;
+use std::iter;
+
 pub struct Board {
     squares: [[Square; 8]; 8]
 }
@@ -39,5 +42,36 @@ impl Board {
         Rank::iter_ranks(0..rank::MAX_NUMBER_OF_RANKS).map(|rank| {
             self.get_square(file, rank)
         }).collect()
+    }
+
+    pub fn get_diagonals(&self, square: &Square) -> Vec<&Square> {
+        // Distance is # of steps to edge square
+        let distance_to_left = square.file.value();
+        let distance_to_floor = square.rank.value();
+        let distance_to_right = file::MAX_NUMBER_OF_FILES - square.file.value() - 1;
+        let distance_to_ceiling = rank::MAX_NUMBER_OF_RANKS - square.rank.value() - 1;
+
+        let positive_diagonal_left_diff = cmp::min(distance_to_left, distance_to_floor);
+        let positive_diagonal_right_diff = cmp::min(distance_to_right, distance_to_ceiling);
+
+        // Use steps so that we can
+        let positive_diagonal_file_range = (square.file.value()-positive_diagonal_left_diff)..=(square.file.value()+positive_diagonal_right_diff);
+        let positive_diagonal_rank_range = (square.rank.value()-positive_diagonal_left_diff)..=(square.rank.value()+positive_diagonal_right_diff);
+
+        let positive_diagonal = iter::zip(File::iter_files(positive_diagonal_file_range), Rank::iter_ranks(positive_diagonal_rank_range)).map(|(file, rank)| {
+            self.get_square(file, rank)
+        });
+
+        let negative_diagonal_left_diff = cmp::min(distance_to_left, distance_to_ceiling);
+        let negative_diagonal_right_diff = cmp::min(distance_to_right, distance_to_floor);
+
+        let negative_diagonal_file_range = (square.file.value()-negative_diagonal_left_diff)..=(square.file.value()+negative_diagonal_right_diff);
+        let negative_diagonal_rank_range = ((square.rank.value()-negative_diagonal_right_diff)..=(square.rank.value()+negative_diagonal_left_diff)).rev();
+
+        let negative_diagonal = iter::zip(File::iter_files(negative_diagonal_file_range), Rank::iter_ranks(negative_diagonal_rank_range)).map(|(file, rank)| {
+            self.get_square(file, rank)
+        });
+
+        positive_diagonal.chain(negative_diagonal).collect()
     }
 }
