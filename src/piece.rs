@@ -4,6 +4,7 @@ use crate::square::Square;
 pub mod king;
 pub mod knight;
 pub mod rook;
+pub mod bishop;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Color {
