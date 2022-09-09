@@ -12,11 +12,11 @@ pub struct Square {
 }
 
 impl Square {
-    pub fn build(rank: u8, file: u8) -> Result<Square, &'static str> {
+    pub fn build(file: u8, rank: u8) -> Result<Square, &'static str> {
         let rank = Rank::build(rank)?;
         let file = File::build(file)?;
         let piece: Option<Box<dyn Piece>> = None;
-        Ok(Square{rank, file, piece})
+        Ok(Square{file, rank, piece})
     }
 
     pub fn rank(&self) -> Rank {

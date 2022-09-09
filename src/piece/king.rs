@@ -18,8 +18,8 @@ impl Piece for King {
         let rank_val = square.rank().value();
         let file_val = square.file().value();
 
-        Rank::iter_ranks((rank_val-1)..=(rank_val+1)).flat_map(|rank| {
-            File::iter_files((file_val-1)..=(file_val+1)).filter(move |file| {
+        Rank::iter_ranks((rank_val.saturating_sub(1))..=(rank_val+1)).flat_map(|rank| {
+            File::iter_files((file_val.saturating_sub(1))..=(file_val+1)).filter(move |file| {
                 !(rank.value() == rank_val && file.value() == file_val)
             }).map(move |file| {
                 board.get_square(file, rank)
@@ -83,7 +83,7 @@ mod tests {
         let king_moves = king.get_moves(&board, &square);
 
         assert!(valid_moves.len() == king_moves.len());
-        
+
         assert!(
             valid_moves.iter().all(|m| {
                 king_moves.contains(&m)
@@ -107,7 +107,7 @@ mod tests {
         let king_moves = king.get_moves(&board, &square);
 
         assert!(valid_moves.len() == king_moves.len());
-        
+
         assert!(
             valid_moves.iter().all(|m| {
                 king_moves.contains(&m)
