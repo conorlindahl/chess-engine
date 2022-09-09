@@ -1,5 +1,7 @@
 use crate::square::Square;
+use crate::rank;
 use crate::rank::Rank;
+use crate::file;
 use crate::file::File;
 
 pub struct Board {
@@ -25,5 +27,17 @@ impl Board {
         let file = usize::from(file.value());
         let rank = usize::from(rank.value());
         &self.squares[file][rank]
+    }
+
+    pub fn get_rank(&self, rank: Rank) -> Vec<&Square> {
+        File::iter_files(0..file::MAX_NUMBER_OF_FILES).map(|file| {
+            self.get_square(file, rank)
+        }).collect()
+    }
+
+    pub fn get_file(&self, file: File) -> Vec<&Square> {
+        Rank::iter_ranks(0..rank::MAX_NUMBER_OF_RANKS).map(|rank| {
+            self.get_square(file, rank)
+        }).collect()
     }
 }

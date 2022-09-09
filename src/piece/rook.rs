@@ -15,17 +15,11 @@ pub struct Rook {
 
 impl Piece for Rook {
     fn get_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
-        let rank_iter = Rank::iter_ranks(0..rank::MAX_NUMBER_OF_RANKS).filter(|rank| {
-            rank.value() != square.rank.value()
-        }).map(|rank| {
-            board.get_square(square.file, rank)
-        });
-        let file_iter = File::iter_files(0..file::MAX_NUMBER_OF_FILES).filter(|file| {
-            file.value() != square.file.value()
-        }).map(|file| {
-            board.get_square(file, square.rank)
-        });
-        rank_iter.chain(file_iter).collect()
+        board.get_file(square.file).iter().chain(
+            board.get_rank(square.rank).iter()
+        ).filter(|sq| {
+            square.rank != sq.rank || square.file != sq.file
+        }).map(|&sq| { sq }).collect()
     }
 
     fn get_color(&self) -> Color {
@@ -62,7 +56,7 @@ mod tests {
 
         let rook_moves = rook.get_moves(&board, &square);
 
-        assert!(valid_moves.len() == rook_moves.len());
+        assert_eq!(valid_moves.len(), rook_moves.len());
         
         assert!(
             valid_moves.iter().all(|m| {
@@ -96,7 +90,7 @@ mod tests {
 
         let rook_moves = rook.get_moves(&board, &square);
 
-        assert!(valid_moves.len() == rook_moves.len());
+        assert_eq!(valid_moves.len(), rook_moves.len());
         
         assert!(
             valid_moves.iter().all(|m| {
@@ -130,7 +124,7 @@ mod tests {
 
         let rook_moves = rook.get_moves(&board, &square);
 
-        assert!(valid_moves.len() == rook_moves.len());
+        assert_eq!(valid_moves.len(), rook_moves.len());
         
         assert!(
             valid_moves.iter().all(|m| {
