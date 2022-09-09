@@ -41,3 +41,27 @@ impl File {
         }
     }
 }
+
+use std::cmp::PartialEq;
+use std::cmp::Eq;
+impl PartialEq for File {
+    fn eq(&self, other: &File) -> bool {
+        self.val == other.val
+    }
+}
+impl Eq for File {}
+
+use std::cmp::Ord;
+use std::cmp::PartialOrd;
+use std::cmp::Ordering;
+impl Ord for File {
+    fn cmp(&self, other: &File) -> Ordering {
+        self.val.cmp(&other.val)
+    }
+}
+
+impl PartialOrd for File {
+    fn partial_cmp(&self, other: &File) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}

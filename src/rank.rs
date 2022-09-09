@@ -41,3 +41,27 @@ impl Rank {
         }
     }
 }
+
+use std::cmp::PartialEq;
+use std::cmp::Eq;
+impl PartialEq for Rank {
+    fn eq(&self, other: &Rank) -> bool {
+        self.val == other.val
+    }
+}
+impl Eq for Rank {}
+
+use std::cmp::Ord;
+use std::cmp::PartialOrd;
+use std::cmp::Ordering;
+impl Ord for Rank {
+    fn cmp(&self, other: &Rank) -> Ordering {
+        self.val.cmp(&other.val)
+    }
+}
+
+impl PartialOrd for Rank {
+    fn partial_cmp(&self, other: &Rank) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
