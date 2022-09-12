@@ -3,19 +3,21 @@ use crate::file::File;
 
 use crate::piece::Piece;
 
+use std::rc::Rc;
+
 #[derive(Debug)]
 pub struct Square {
     pub rank: Rank,
     pub file: File,
 
-    pub piece: Option<Box<dyn Piece>>,
+    pub piece: Option<Rc<dyn Piece>>,
 }
 
 impl Square {
     pub fn build(file: u8, rank: u8) -> Result<Square, &'static str> {
         let rank = Rank::build(rank)?;
         let file = File::build(file)?;
-        let piece: Option<Box<dyn Piece>> = None;
+        let piece: Option<Rc<dyn Piece>> = None;
         Ok(Square{file, rank, piece})
     }
 

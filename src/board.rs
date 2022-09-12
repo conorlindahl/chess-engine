@@ -6,6 +6,7 @@ use crate::file::File;
 
 use std::cmp;
 use std::iter;
+use std::rc::Rc;
 
 pub struct Board {
     squares: [[Square; 8]; 8]
@@ -73,5 +74,12 @@ impl Board {
         });
 
         positive_diagonal.chain(negative_diagonal).collect()
+    }
+
+    pub fn move_pice(&mut self, sq_a: &mut Square, sq_b: &mut Square) {
+        if sq_a.piece.is_some() {
+            sq_b.piece = Some(Rc::clone(sq_a.piece.as_ref().unwrap()));
+            sq_a.piece = None;
+        }
     }
 }
