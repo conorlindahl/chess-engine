@@ -28,6 +28,17 @@ impl Square {
     pub fn file(&self) -> File {
         self.file
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.piece.is_none()
+    }
+
+    pub fn piece_matches_color(&self, color: Color) -> bool {
+        match self.piece {
+            Some(piece) => piece.color == color,
+            None => false
+        }
+    }
 }
 
 impl PartialEq for Square {
