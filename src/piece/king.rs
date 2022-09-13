@@ -24,6 +24,8 @@ impl Piece for King {
             }).map(move |file| {
                 board.get_square(file, rank)
             })
+        }).filter(|square| {
+            !square.piece_matches_color(self.color)
         }).collect()
     }
 
@@ -35,6 +37,7 @@ impl Piece for King {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::rc::Rc;
 
     #[test]
     fn central_square_empty_board() {
@@ -113,5 +116,23 @@ mod tests {
                 king_moves.contains(&m)
             })
         );
+    }
+
+    #[test]
+    fn central_square_near_friendly_piece() {
+        let mut board = Board::build().unwrap();
+        let color = Color::White;
+
+        let square_bad = Square::build(3,4).unwrap();
+        board.add_piece(Rc::new(King{color}), square_bad.file, square_bad.rank);
+
+        let square = Square::build(4,4).unwrap();
+        let king = King{color};
+
+        let king_moves = king.get_moves(&board, &square);
+
+        println!("{:?}", king_moves);
+
+        assert!(!king_moves.contains(&&square_bad));
     }
 }
