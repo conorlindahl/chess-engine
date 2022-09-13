@@ -1,6 +1,7 @@
 use crate::rank::Rank;
 use crate::file::File;
 
+use crate::piece::Color;
 use crate::piece::Piece;
 
 use std::rc::Rc;
@@ -34,8 +35,8 @@ impl Square {
     }
 
     pub fn piece_matches_color(&self, color: Color) -> bool {
-        match self.piece {
-            Some(piece) => piece.color == color,
+        match &self.piece {
+            Some(piece) => piece.get_color() == color,
             None => false
         }
     }

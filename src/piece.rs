@@ -8,7 +8,7 @@ pub mod bishop;
 pub mod queen;
 pub mod pawn;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Color {
     White,
     Black,
