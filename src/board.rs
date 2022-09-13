@@ -3,6 +3,7 @@ use crate::rank;
 use crate::rank::Rank;
 use crate::file;
 use crate::file::File;
+use crate::piece::Piece;
 
 use std::cmp;
 use std::iter;
@@ -74,6 +75,14 @@ impl Board {
         });
 
         positive_diagonal.chain(negative_diagonal).collect()
+    }
+
+    pub fn add_piece(&mut self, piece: Rc<dyn Piece>, file: File, rank: Rank) {
+        let square: &mut Square = &mut self.squares[usize::from(file.value())][usize::from(rank.value())];
+        match square.piece {
+            Some(_) => panic!("Square already has a piece"),
+            None => {square.piece = Some(piece);}
+        }
     }
 
     pub fn move_pice(&mut self, sq_a: &mut Square, sq_b: &mut Square) {
