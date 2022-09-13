@@ -8,8 +8,8 @@ use std::rc::Rc;
 
 #[derive(Debug)]
 pub struct Square {
-    pub rank: Rank,
     pub file: File,
+    pub rank: Rank,
 
     pub piece: Option<Rc<dyn Piece>>,
 }
