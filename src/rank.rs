@@ -25,20 +25,12 @@ impl Rank {
         self.val
     }
 
-    pub fn next(&self) -> Option<Rank> {
-        if self.val + 1 >= MAX_NUMBER_OF_RANKS {
-            None
-        } else {
-            Some(Rank{val: self.val+1})
-        }
+    pub fn next_by(&self, jump: u8) -> Result<Rank, &'static str> {
+        Rank::build(self.val + jump)
     }
 
-    pub fn previous(&self) -> Option<Rank> {
-        if self.val == 0 {
-            None
-        } else {
-            Some(Rank{val: self.val - 1})
-        }
+    pub fn previous_by(&self, jump: u8) -> Result<Rank, &'static str> {
+        Rank::build(self.val - jump)
     }
 }
 

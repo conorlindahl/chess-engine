@@ -25,20 +25,12 @@ impl File {
         self.val
     }
 
-    pub fn next(&self) -> Option<File> {
-        if self.val + 1 >= MAX_NUMBER_OF_FILES {
-            None
-        } else {
-            Some(File{val: self.val + 1})
-        }
+    pub fn next_by(&self, jump: u8) -> Result<File, &'static str> {
+        File::build(self.val + jump)
     }
 
-    pub fn previous(&self) -> Option<File> {
-        if self.val == 0 {
-            None
-        } else {
-            Some(File{val: self.val - 1})
-        }
+    pub fn previous_by(&self, jump: u8) -> Result<File, &'static str> {
+        File::build(self.val - jump)
     }
 }
 

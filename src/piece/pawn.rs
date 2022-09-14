@@ -21,11 +21,11 @@ const BLACK_STARTING_RANK: u8 = 6;
 impl Pawn {
     fn get_white_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
         let mut res: Vec<&Square> = Vec::new();
-        if let Some(r) = square.rank.next() {
+        if let Ok(r) = square.rank.next_by(1) {
             res.push(board.get_square(square.file, r));
         }
         if !self.has_moved {
-            if let Ok(r) = Rank::build(square.rank.value() + 2) {
+            if let Ok(r) = square.rank.next_by(2) {
                     res.push(board.get_square(square.file, r));
             }
         }
@@ -34,11 +34,11 @@ impl Pawn {
 
     fn get_black_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
         let mut res: Vec<&Square> = Vec::new();
-        if let Some(r) = square.rank.previous() {
+        if let Ok(r) = square.rank.previous_by(1) {
             res.push(board.get_square(square.file, r));
         }
         if !self.has_moved {
-            if let Ok(r) = Rank::build(square.rank.value() - 2) {
+            if let Ok(r) = square.rank.previous_by(2) {
                 res.push(board.get_square(square.file, r));
             }
         }
