@@ -30,6 +30,8 @@ impl Piece for Knight {
                 file.is_ok() && rank.is_ok()
             }).map(|(file, rank)| {
                 board.get_square(file.unwrap(), rank.unwrap())
+            }).filter(|square| {
+                !square.piece_matches_color(self.color)
             }).collect::<Vec<&Square>>()
         }).collect()
     }
@@ -42,6 +44,7 @@ impl Piece for Knight {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::rc::Rc;
 
     #[test]
     fn central_square_empty_board() {
@@ -117,4 +120,19 @@ mod tests {
         );
     }
 
+    #[test]
+    fn central_square_near_friendly_piece() {
+        let mut board = Board::build().unwrap();
+        let color = Color::White;
+
+        let square_bad = Square::build(2,5).unwrap();
+        board.add_piece(Rc::new(Knight{color}), square_bad.file, square_bad.rank);
+        
+        let square = Square::build(4,4).unwrap();
+        let knight = Knight{color};
+
+        let knight_moves = knight.get_moves(&board, &square);
+
+        assert!(!knight_moves.contains(&&square_bad));
+    }
 }
