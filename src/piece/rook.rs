@@ -15,11 +15,15 @@ pub struct Rook {
 
 impl Piece for Rook {
     fn get_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
+        println!("{:?}", self);
         board.get_file(square.file).iter().chain(
             board.get_rank(square.rank).iter()
         ).filter(|sq| {
-            square.rank != sq.rank || square.file != sq.file
-        }).map(|&sq| { sq }).collect()
+            (square.rank != sq.rank || square.file != sq.file) && !sq.piece_matches_color(self.color)
+        }).map(|&sq| { 
+            println!("{:?}", sq);
+            sq 
+        }).collect()
     }
 
     fn get_color(&self) -> Color {
@@ -30,6 +34,7 @@ impl Piece for Rook {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::rc::Rc;
 
     #[test]
     fn central_pice_empty_board() {
@@ -131,5 +136,21 @@ mod tests {
                 rook_moves.contains(&m)
             })
         );
+    }
+
+    #[test]
+    fn central_pice_near_friendly_piece() {
+        let mut board = Board::build().unwrap();
+        let color = Color::Black;
+
+        let square_bad = Square::build(1, 4).unwrap();
+        board.add_piece(Rc::new(Rook{color}), square_bad.file, square_bad.rank);
+
+        let square = Square::build(4,4).unwrap();
+        let rook = Rook{color};
+        
+        let rook_moves = rook.get_moves(&board, &square);
+
+        assert!(!rook_moves.contains(&&square_bad));
     }
 }
