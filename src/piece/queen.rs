@@ -21,7 +21,7 @@ impl Piece for Queen {
         ).chain(
             board.get_rank(square.rank).iter()
         ).filter_map(|&sq| {
-            if sq.rank != square.rank || sq.file != square.file {
+            if (sq.rank != square.rank || sq.file != square.file) && !sq.piece_matches_color(self.color) {
                 Some(sq)
             } else {
                 None
@@ -37,6 +37,7 @@ impl Piece for Queen {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::rc::Rc;
 
     #[test]
     fn central_pice_empty_board() {
@@ -165,5 +166,21 @@ mod tests {
                 queen_moves.contains(&m)
             })
         );
+    }
+
+    #[test]
+    fn central_pice_near_friendly_piece() {
+        let mut board = Board::build().unwrap();
+        let color = Color::White;
+
+        let square_bad = Square::build(4, 7).unwrap();
+        board.add_piece(Rc::new(Queen{color}), square_bad.file, square_bad.rank);
+        
+        let square = Square::build(4,4).unwrap();
+        let queen = Queen{color};
+        
+        let queen_moves = queen.get_moves(&board, &square);
+
+        assert!(!queen_moves.contains(&&square_bad));
     }
 }
