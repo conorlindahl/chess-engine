@@ -17,7 +17,7 @@ impl Piece for Bishop {
     fn get_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
         // Distance is # of steps to edge square
         board.get_diagonals(square).iter().filter_map(|&sq| {
-            if sq.rank != square.rank && sq.file != square.file {
+            if sq.rank != square.rank && sq.file != square.file && !sq.piece_matches_color(self.color) {
                 Some(sq)
             } else {
                 None
@@ -33,6 +33,7 @@ impl Piece for Bishop {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::rc::Rc;
 
     #[test]
     fn central_piece_empty_board() {
@@ -235,5 +236,21 @@ mod tests {
                 bishop_moves.contains(&m)
             })
         );
+    }
+
+    #[test]
+    fn central_piece_near_friendly_piece() {
+        let mut board = Board::build().unwrap();
+        let color = Color::Black;
+
+        let square_bad = Square::build(1, 7).unwrap();
+        board.add_piece(Rc::new(Bishop{color}), square_bad.file, square_bad.rank);
+
+        let square = Square::build(4,4).unwrap();
+        let bishop = Bishop{color};
+
+        let bishop_moves = bishop.get_moves(&board, &square);
+
+        assert!(!bishop_moves.contains(&&square_bad));
     }
 }
