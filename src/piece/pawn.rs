@@ -8,6 +8,8 @@ use crate::file::File;
 #[derive(Debug, Clone, Copy)]
 pub struct Pawn {
     color: Color,
+
+    has_moved: bool,
 }
 
 /* Idea for an improvement: Create a 3x3 array of Option<T>. If left/right/up/down are None, fill out the adjacent values with None.
@@ -22,7 +24,7 @@ impl Pawn {
         if let Some(r) = square.rank.next() {
             res.push(board.get_square(square.file, r));
         }
-        if square.rank.value() == WHITE_STARTING_RANK {
+        if !self.has_moved {
             if let Ok(r) = Rank::build(square.rank.value() + 2) {
                     res.push(board.get_square(square.file, r));
             }
@@ -35,7 +37,7 @@ impl Pawn {
         if let Some(r) = square.rank.previous() {
             res.push(board.get_square(square.file, r));
         }
-        if square.rank.value() == BLACK_STARTING_RANK {
+        if !self.has_moved {
             if let Ok(r) = Rank::build(square.rank.value() - 2) {
                 res.push(board.get_square(square.file, r));
             }
@@ -66,7 +68,7 @@ mod tests {
         let board = Board::build().unwrap();
         let square = Square::build(4,1).unwrap();
         
-        let pawn = Pawn{color: Color::White};
+        let pawn = Pawn{color: Color::White, has_moved: false};
 
         let valid_moves = vec!(
             Square::build(4, 2).unwrap(),
@@ -89,7 +91,7 @@ mod tests {
         let board = Board::build().unwrap();
         let square = Square::build(4,2).unwrap();
         
-        let pawn = Pawn{color: Color::White};
+        let pawn = Pawn{color: Color::White, has_moved: true};
 
         let valid_moves = vec!(
             Square::build(4, 3).unwrap(),
@@ -111,7 +113,7 @@ mod tests {
         let board = Board::build().unwrap();
         let square = Square::build(4,6).unwrap();
         
-        let pawn = Pawn{color: Color::Black};
+        let pawn = Pawn{color: Color::Black, has_moved: false};
 
         let valid_moves = vec!(
             Square::build(4, 5).unwrap(),
@@ -134,7 +136,7 @@ mod tests {
         let board = Board::build().unwrap();
         let square = Square::build(4,5).unwrap();
         
-        let pawn = Pawn{color: Color::Black};
+        let pawn = Pawn{color: Color::Black, has_moved: true};
 
         let valid_moves = vec!(
             Square::build(4, 4).unwrap(),
