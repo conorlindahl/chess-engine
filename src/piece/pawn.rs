@@ -2,8 +2,6 @@ use crate::board::Board;
 use crate::square::Square;
 use crate::piece::Color;
 use crate::piece::Piece;
-use crate::rank::Rank;
-use crate::file::File;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Pawn {
@@ -11,12 +9,6 @@ pub struct Pawn {
 
     has_moved: bool,
 }
-
-/* Idea for an improvement: Create a 3x3 array of Option<T>. If left/right/up/down are None, fill out the adjacent values with None.
- * Only calculate squares that aren't adjacent to None.
- */
-const WHITE_STARTING_RANK: u8 = 1;
-const BLACK_STARTING_RANK: u8 = 6;
 
 impl Pawn {
     fn get_white_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {

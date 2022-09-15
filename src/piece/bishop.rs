@@ -1,12 +1,7 @@
 use crate::board::Board;
 use crate::piece::Color;
-use crate::file::File;
 use crate::piece::Piece;
-use crate::rank::Rank;
 use crate::square::Square;
-
-use crate::rank;
-use crate::file;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Bishop {
