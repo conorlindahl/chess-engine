@@ -10,9 +10,6 @@ pub struct King {
     color: Color,
 }
 
-/* Idea for an improvement: Create a 3x3 array of Option<T>. If left/right/up/down are None, fill out the adjacent values with None.
- * Only calculate squares that aren't adjacent to None.
- */
 impl Piece for King {
     fn get_moves<'a>(&self, board: &'a Board, square: &Square) -> Vec<&'a Square> {
         let rank_val = square.rank().value();
