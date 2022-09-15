@@ -10,7 +10,10 @@ use std::iter;
 use std::rc::Rc;
 
 pub struct Board {
-    squares: [[Square; 8]; 8]
+    squares: [[Square; 8]; 8],
+
+    white_castling_rights: CastlingState,
+    black_castling_rights: CastlingState
 }
 
 impl Board {
@@ -25,7 +28,13 @@ impl Board {
             [Square::build(6, 0)?, Square::build(6, 1)?, Square::build(6, 2)?, Square::build(6, 3)?, Square::build(6, 4)?, Square::build(6, 5)?, Square::build(6, 6)?, Square::build(6, 7)?],
             [Square::build(7, 0)?, Square::build(7, 1)?, Square::build(7, 2)?, Square::build(7, 3)?, Square::build(7, 4)?, Square::build(7, 5)?, Square::build(7, 6)?, Square::build(7, 7)?],           
         ];
-        Ok(Board{squares})
+        Ok(Board{
+            squares: squares,
+            white_castling_rights: CastlingState::new(),
+            black_castling_rights: CastlingState::new()
+        })
+    }
+
     }
 
     pub fn get_square(&self, file: File, rank: Rank) -> &Square {
@@ -90,5 +99,34 @@ impl Board {
             sq_b.piece = Some(Rc::clone(sq_a.piece.as_ref().unwrap()));
             sq_a.piece = None;
         }
+    }
+}
+
+pub struct CastlingState {
+    king_has_moved: bool,
+    queenside_rook_has_moved: bool,
+    kingside_rook_has_moved: bool
+}
+
+impl CastlingState {
+    pub fn new() -> CastlingState {
+        CastlingState{
+            king_has_moved: false,
+            queenside_rook_has_moved: false,
+            kingside_rook_has_moved: false
+        }
+    }
+
+    fn can_castle(&self) -> bool {
+        // calculates if two squares next to king are free, and if they're not under attack
+        true
+    }
+
+    fn has_kingside_castling_rights(&self) -> bool {
+        !self.king_has_moved && !self.kingside_rook_has_moved
+    }
+
+    fn has_queenside_castling_rights(&self) -> bool {
+        !self.king_has_moved && !self.queenside_rook_has_moved
     }
 }
