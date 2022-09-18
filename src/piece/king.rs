@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn central_square_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,4).unwrap();
         
         let king = King{color: Color::White};
@@ -67,7 +67,7 @@ mod tests {
 
     #[test]
     fn edge_square_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(0,4).unwrap();
         
         let king = King{color: Color::White};
@@ -93,7 +93,7 @@ mod tests {
 
     #[test]
     fn corner_square_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(0,0).unwrap();
         
         let king = King{color: Color::White};
@@ -117,7 +117,7 @@ mod tests {
 
     #[test]
     fn central_square_near_friendly_piece() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
         let color = Color::White;
 
         let square_bad = Square::build(3,4).unwrap();

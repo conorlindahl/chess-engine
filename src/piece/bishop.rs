@@ -32,7 +32,7 @@ mod tests {
 
     #[test]
     fn central_piece_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,4).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -65,7 +65,7 @@ mod tests {
 
     #[test]
     fn central_piece_lower_file_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(2,4).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -96,7 +96,7 @@ mod tests {
 
     #[test]
     fn central_piece_lower_rank_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,2).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -127,7 +127,7 @@ mod tests {
 
     #[test]
     fn left_edge_piece_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(0,4).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -154,7 +154,7 @@ mod tests {
 
     #[test]
     fn top_edge_piece_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,7).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -181,7 +181,7 @@ mod tests {
 
     #[test]
     fn right_edge_piece_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(7,4).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -208,7 +208,7 @@ mod tests {
 
     #[test]
     fn bottom_edge_piece_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,0).unwrap();
         let bishop = Bishop{color: Color::White};
         
@@ -235,7 +235,7 @@ mod tests {
 
     #[test]
     fn central_piece_near_friendly_piece() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
         let color = Color::Black;
 
         let square_bad = Square::build(1, 7).unwrap();

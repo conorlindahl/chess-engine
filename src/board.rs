@@ -4,6 +4,7 @@ use crate::rank::Rank;
 use crate::file;
 use crate::file::File;
 use crate::piece::Piece;
+use crate::piece::Color;
 
 use std::cmp;
 use std::iter;
@@ -17,7 +18,8 @@ pub struct Board {
 }
 
 impl Board {
-    pub fn build() -> Result<Board, &'static str> {
+    // Build an empty board at initial state
+    pub fn build_empty() -> Result<Board, &'static str> {
         let squares = [
             [Square::build(0, 0)?, Square::build(0, 1)?, Square::build(0, 2)?, Square::build(0, 3)?, Square::build(0, 4)?, Square::build(0, 5)?, Square::build(0, 6)?, Square::build(0, 7)?],
             [Square::build(1, 0)?, Square::build(1, 1)?, Square::build(1, 2)?, Square::build(1, 3)?, Square::build(1, 4)?, Square::build(1, 5)?, Square::build(1, 6)?, Square::build(1, 7)?],
@@ -28,13 +30,22 @@ impl Board {
             [Square::build(6, 0)?, Square::build(6, 1)?, Square::build(6, 2)?, Square::build(6, 3)?, Square::build(6, 4)?, Square::build(6, 5)?, Square::build(6, 6)?, Square::build(6, 7)?],
             [Square::build(7, 0)?, Square::build(7, 1)?, Square::build(7, 2)?, Square::build(7, 3)?, Square::build(7, 4)?, Square::build(7, 5)?, Square::build(7, 6)?, Square::build(7, 7)?],           
         ];
+        let white_castling_rights = CastlingState::new();
+        let black_castling_rights = CastlingState::new();
         Ok(Board{
-            squares: squares,
-            white_castling_rights: CastlingState::new(),
-            black_castling_rights: CastlingState::new()
+            squares,
+            white_castling_rights,
+            black_castling_rights
         })
     }
 
+    // Build a custom board
+    pub fn build_custom(squares: [[Square; 8]; 8], white_castling_rights: CastlingState, black_castling_rights: CastlingState) -> Board {
+        Board{
+            squares,
+            white_castling_rights,
+            black_castling_rights
+        }
     }
 
     pub fn get_square(&self, file: File, rank: Rank) -> &Square {
@@ -100,6 +111,28 @@ impl Board {
             sq_a.piece = None;
         }
     }
+
+    pub fn can_castle_kingside(&self, color: Color) -> bool {
+        match color {
+            Color::White => self.kingside_castle_valid(&self.white_castling_rights, &self.squares[4][0]),
+            Color::Black => self.kingside_castle_valid(&self.black_castling_rights, &self.squares[4][7])
+        }
+    }
+
+    pub fn can_castle_queenside(&self, color: Color) -> bool {
+        match color {
+            Color::White => self.queenside_castle_valid(&self.white_castling_rights, &self.squares[4][0]),
+            Color::Black => self.queenside_castle_valid(&self.black_castling_rights, &self.squares[4][7])
+        }
+    }
+
+    fn kingside_castle_valid(&self, castling_state: &CastlingState, king_square: &Square) -> bool {
+        castling_state.has_kingside_castling_rights()
+    }
+
+    fn queenside_castle_valid(&self, castling_state: &CastlingState, king_square: &Square) -> bool {
+        castling_state.has_queenside_castling_rights()
+    }
 }
 
 pub struct CastlingState {
@@ -115,11 +148,6 @@ impl CastlingState {
             queenside_rook_has_moved: false,
             kingside_rook_has_moved: false
         }
-    }
-
-    fn can_castle(&self) -> bool {
-        // calculates if two squares next to king are free, and if they're not under attack
-        true
     }
 
     fn has_kingside_castling_rights(&self) -> bool {

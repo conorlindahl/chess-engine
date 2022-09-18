@@ -33,7 +33,7 @@ mod tests {
 
     #[test]
     fn central_pice_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,4).unwrap();
         let rook = Rook{color: Color::White};
         
@@ -67,7 +67,7 @@ mod tests {
 
     #[test]
     fn edge_pice_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(0,4).unwrap();
         let rook = Rook{color: Color::White};
         
@@ -101,7 +101,7 @@ mod tests {
 
     #[test]
     fn corner_pice_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(0,0).unwrap();
         let rook = Rook{color: Color::White};
         
@@ -135,7 +135,7 @@ mod tests {
 
     #[test]
     fn central_pice_near_friendly_piece() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
         let color = Color::Black;
 
         let square_bad = Square::build(1, 4).unwrap();

@@ -107,7 +107,7 @@ mod tests {
 
     #[test]
     fn white_pawn_starting_rank_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,1).unwrap();
         
         let pawn = Pawn{color: Color::White, has_moved: false};
@@ -130,7 +130,7 @@ mod tests {
 
     #[test]
     fn white_pawn_non_starting_rank_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,2).unwrap();
         
         let pawn = Pawn{color: Color::White, has_moved: true};
@@ -152,7 +152,7 @@ mod tests {
 
     #[test]
     fn black_pawn_starting_rank_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,6).unwrap();
         
         let pawn = Pawn{color: Color::Black, has_moved: false};
@@ -175,7 +175,7 @@ mod tests {
 
     #[test]
     fn black_pawn_non_starting_rank_empty_board() {
-        let board = Board::build().unwrap();
+        let board = Board::build_empty().unwrap();
         let square = Square::build(4,5).unwrap();
         
         let pawn = Pawn{color: Color::Black, has_moved: true};
@@ -197,7 +197,7 @@ mod tests {
 
     #[test]
     fn white_pawn_blocked_in_front_by_opponent() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,2).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::Black, has_moved: true}), square.file, square.rank);
@@ -212,7 +212,7 @@ mod tests {
     
     #[test]
     fn white_pawn_blocked_in_front_by_friend() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,2).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::White, has_moved: true}), square.file, square.rank);
@@ -227,7 +227,7 @@ mod tests {
     
     #[test]
     fn white_pawn_far_blocked_in_front_by_opponent() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,3).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::Black, has_moved: true}), square.file, square.rank);
@@ -248,7 +248,7 @@ mod tests {
     
     #[test]
     fn white_pawn_far_blocked_in_front_by_friend() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,3).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::White, has_moved: true}), square.file, square.rank);
@@ -269,7 +269,7 @@ mod tests {
 
     #[test]
     fn white_pawn_available_captures() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(3,2).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::Black, has_moved: true}), square.file, square.rank);
@@ -293,7 +293,7 @@ mod tests {
 
     #[test]
     fn white_pawn_friends_on_captures() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(3,2).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::White, has_moved: true}), square.file, square.rank);
@@ -317,7 +317,7 @@ mod tests {
 
     #[test]
     fn black_pawn_blocked_in_front_by_opponent() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,5).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::White, has_moved: true}), square.file, square.rank);
@@ -332,7 +332,7 @@ mod tests {
     
     #[test]
     fn black_pawn_blocked_in_front_by_friend() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,5).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::Black, has_moved: true}), square.file, square.rank);
@@ -347,7 +347,7 @@ mod tests {
     
     #[test]
     fn black_pawn_far_blocked_in_front_by_opponent() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,4).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::White, has_moved: true}), square.file, square.rank);
@@ -368,7 +368,7 @@ mod tests {
     
     #[test]
     fn black_pawn_far_blocked_in_front_by_friend() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(4,4).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::Black, has_moved: true}), square.file, square.rank);
@@ -389,7 +389,7 @@ mod tests {
 
     #[test]
     fn black_pawn_available_captures() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(3,5).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::White, has_moved: true}), square.file, square.rank);
@@ -413,7 +413,7 @@ mod tests {
 
     #[test]
     fn black_pawn_friends_on_captures() {
-        let mut board = Board::build().unwrap();
+        let mut board = Board::build_empty().unwrap();
 
         let square = Square::build(3,5).unwrap();
         board.add_piece(Rc::new(Pawn{color: Color::Black, has_moved: true}), square.file, square.rank);
