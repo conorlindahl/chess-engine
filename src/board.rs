@@ -8,7 +8,6 @@ use crate::piece::Color;
 
 use std::cmp;
 use std::iter;
-use std::rc::Rc;
 
 pub struct Board {
     squares: [[Square; 8]; 8],
@@ -97,7 +96,7 @@ impl Board {
         positive_diagonal.chain(negative_diagonal).collect()
     }
 
-    pub fn add_piece(&mut self, piece: Rc<dyn Piece>, file: File, rank: Rank) {
+    pub fn add_piece(&mut self, piece: Piece, file: File, rank: Rank) {
         let square: &mut Square = &mut self.squares[usize::from(file.value())][usize::from(rank.value())];
         match square.piece {
             Some(_) => panic!("Square already has a piece"),
@@ -107,7 +106,7 @@ impl Board {
 
     pub fn move_pice(&mut self, sq_a: &mut Square, sq_b: &mut Square) {
         if sq_a.piece.is_some() {
-            sq_b.piece = Some(Rc::clone(sq_a.piece.as_ref().unwrap()));
+            sq_b.piece = sq_a.piece;
             sq_a.piece = None;
         }
     }
